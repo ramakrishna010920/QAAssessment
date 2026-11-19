@@ -1,0 +1,26 @@
+
+# Playwright
+node_modules/
+artifacts/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Local dependencies, build output, and environment secrets
+.venv/
+**/.venv/
+**/node_modules/
+**/target/
+**/.gradle/
+**/.next/
+**/build/
+**/dist/
+**/coverage/
+.env*
+**/.env*
+*.pem
+*.key
+*.p12
+*.pfx

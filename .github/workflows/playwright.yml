@@ -1,0 +1,36 @@
+name: QA Allure Report
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    timeout-minutes: 90
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+    - name: Install dependencies
+      run: npm ci
+    - name: Install UI dependencies
+      run: npm ci --prefix demo-app-qa-main/code/demo-app-ui
+    - name: Install Playwright Chromium
+      run: npx playwright install --with-deps chromium
+    - name: Start infrastructure
+      run: docker compose -f demo-app-qa-main/docker-compose.infra.yml up -d --wait --wait-timeout 240
+    - name: Start application
+      run: docker compose -f demo-app-qa-main/docker-compose.apps.yml up -d --build --wait --wait-timeout 600
+    - name: Run QA and generate Allure report
+      run: npm run qa:report
+    - uses: actions/upload-artifact@v4
+      if: ${{ always() }}
+      with:
+        name: allure-report-${{ github.run_number }}
+        path: |
+          artifacts/allure-report/
+          artifacts/allure-results/
+        if-no-files-found: ignore
+        retention-days: 30

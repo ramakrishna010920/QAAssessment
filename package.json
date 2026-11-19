@@ -1,0 +1,28 @@
+{
+  "name": "demo-app-qa-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "qa:test": "playwright test -c qa/playwright.config.ts",
+    "qa:test:ui": "playwright test -c qa/playwright.config.ts --project=ui",
+    "qa:test:api": "playwright test -c qa/playwright.config.ts --project=api",
+    "qa:test:microservices": "playwright test -c qa/playwright.config.ts --project=microservices",
+    "qa:test:e2e": "playwright test -c qa/playwright.config.ts --project=e2e",
+    "qa:test:components": "npm --prefix demo-app-qa-main/code/demo-app-ui test",
+    "qa:test:component": "npm --prefix demo-app-qa-main/code/demo-app-ui test -- tests/components",
+    "qa:test:unit": "npm --prefix demo-app-qa-main/code/demo-app-ui test -- tests/unit",
+    "qa:report": "node scripts/run-qa-allure.mjs",
+    "qa:report:open": "allure open artifacts/allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "allure": "^3.33.0",
+    "allure-playwright": "^3.15.0",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6"
+  }
+}
